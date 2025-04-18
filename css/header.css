@@ -1,0 +1,22 @@
+.header {
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  height: 10vh;
+  z-index: 10;
+}
+
+.header ul {
+  width: 100vw;
+  height: 10vh;
+  display: flex;
+  list-style: none;
+}
+
+.header ul li {
+  width: 25vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 32px;
+}

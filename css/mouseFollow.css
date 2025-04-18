@@ -1,0 +1,17 @@
+.mouse-follow {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+}
+
+.mouse-follow-img {
+  max-width: 100px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
