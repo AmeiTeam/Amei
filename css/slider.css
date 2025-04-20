@@ -2,23 +2,40 @@
   height: 25vh;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   position: absolute;
   transform: translate(-50%, -50%);
   top: 80%;
   left: 50%;
-  z-index: 100;
-  gap: 40px;
-  transition: all ease 1s;
+  z-index: 10;
+  gap: 20px;
+  transition: transform 0.5s ease; /* 或在 JS 控制也行 */
+  will-change: transform;
 }
 
 .carousel-item {
+  max-width: 18vw;
+  max-height: 20vh;
+  transition: transform 0.5s ease; /* 或在 JS 控制也行 */
+  transform: scale(1); /* 預設不放大 */
+  position: relative;
+  display: inline-block;
+}
+.carousel-item img {
   width: 200px;
-  height: 200px;
-  transition: all ease 1s;
+  transition: transform 0.5s ease; /* 或在 JS 控制也行 */
+  transform: scale(1); /* 預設不放大 */
+}
+.carousel-item span {
+  width: 120%;
+  position: absolute;
+  transition: all 0.5s ease; /* 或在 JS 控制也行 */
+  top: 0;
+  font-size: 16px;
+  font-weight: 500;
 }
 
 .carousel-item.active {
-  transform: scale(1.2);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  margin: 0 20px;
 }
