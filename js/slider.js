@@ -90,13 +90,13 @@ function renderCarousel(direction = 0) {
 
   // 2. 先把 carousel 移到「滑動開始的起點」
   carousel.style.transition = "none";
-  carousel.style.transform = `translate(-50%, -50%) translateX(${-moveX}px)`;
+  carousel.style.transform = `translateX(${-moveX}px)`;
 
   // 3. 等下一幀（下一輪繪圖）再執行動畫
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
       carousel.style.transition = "transform 0.5s ease";
-      carousel.style.transform = `translate(-50%, -50%) translateX(0)`;
+      carousel.style.transform = `translateX(0)`;
     });
   });
 
@@ -109,12 +109,17 @@ function renderCarousel(direction = 0) {
 let scrollTimeout = null;
 
 function handleScroll(e) {
+  if (Math.abs(e.deltaY) < 10) {
+    return;
+  }
+
   if (isAnimating || scrollTimeout) {
     e.preventDefault();
     return;
   }
 
   e.preventDefault();
+
   const direction = e.deltaY > 0 ? 1 : -1;
   currentIndex = (currentIndex + direction + totalImages) % totalImages;
   renderCarousel(direction);

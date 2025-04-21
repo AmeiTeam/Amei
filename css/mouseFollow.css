@@ -30,13 +30,15 @@
 }
 #line1 {
   left: 25%;
+  z-index: 1;
 }
 #line2 {
   left: 50%;
-  z-index: 11;
+  z-index: 3;
 }
 #line3 {
   left: 75%;
+  z-index: 1
 }
 
 .background-color {

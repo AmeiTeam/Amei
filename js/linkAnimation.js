@@ -15,8 +15,12 @@ linkul.addEventListener("click", function (event) {
   const clickedId = event.target.id;
 
   if (clickedId != "") {
-    // in homepage
-    if (homepage.style.transform == "" && clickedId != "homeLink") {
+    //#region in homepage
+    if (
+      (homepage.style.transform == "" ||
+        homepage.style.transform == "translateY(0px)") &&
+      clickedId != "homeLink"
+    ) {
       line1.style.top = "-100vh";
       document.body.removeEventListener("wheel", window.handleScroll, {
         passive: false,
@@ -47,30 +51,52 @@ linkul.addEventListener("click", function (event) {
         homepage.style.transform = "translateY(-100vh)";
       }, 1750);
     }
-    // in contactpage
+    //#endregion
+    //#region in contactpage
     else if (
-      contactpage.style.transform == "translateY(0)" &&
+      contactpage.style.transform == "translateY(0px)" &&
       clickedId != "contactLink"
     ) {
-      console.log("contactpage");
       line1.style.top = "-100vh";
+      setTimeout(() => {
+        line2.style.top = "-100vh";
+      }, 300);
+      setTimeout(() => {
+        contactpage.style.transform = "translateY(-100vh)";
+      }, 450);
+      setTimeout(() => {
+        line3.style.top = "-100vh";
+      }, 600);
     }
-    // in musicpage
+    //#endregion
+    //#region in musicpage
     else if (
-      musicpage.style.transform == "translateY(0)" &&
+      musicpage.style.transform == "translateY(0px)" &&
       clickedId != "musicLink"
     ) {
-      console.log("musicpage");
       line1.style.top = "-100vh";
+      setTimeout(() => {
+        line2.style.top = "-100vh";
+      }, 300);
+      setTimeout(() => {
+        line3.style.top = "-100vh";
+      }, 600);
     }
-    // in listeningpage
+    //#endregion
+    //#region in listeningpage
     else if (
-      listeningpage.style.transform == "translateY(0)" &&
+      listeningpage.style.transform == "translateY(0px)" &&
       clickedId != "listeningLink"
     ) {
-      console.log("listeningpage");
       line1.style.top = "-100vh";
+      setTimeout(() => {
+        line2.style.top = "-100vh";
+      }, 300);
+      setTimeout(() => {
+        line3.style.top = "-100vh";
+      }, 600);
     }
+    //#endregion
   }
 
   const samePage =
@@ -87,14 +113,37 @@ linkul.addEventListener("click", function (event) {
   if (!samePage) {
     setTimeout(() => {
       switch (clickedId) {
-        // to homepage
+        //#region to homepage
         case "homeLink":
           console.log("Home link clicked!");
-          document.body.addEventListener("wheel", window.handleScroll, {
-            passive: false,
-          });
+          homepage.style.transform = "translateY(0)";
+          line1.style.top = "0";
+          setTimeout(() => {
+            document.querySelector(".left").style.transform = "translateY(0)";
+          }, 150);
+          setTimeout(() => {
+            line2.style.top = "0";
+          }, 300);
+          setTimeout(() => {
+            document.querySelector(".slider-container").style.transform =
+              "translateY(0) translate(-50%, -50%)";
+            document.querySelector(".launch").style.transform = "translateY(0)";
+            document.querySelector(".status").style.transform = "translateY(0)";
+          }, 450);
+          setTimeout(() => {
+            line3.style.top = "0";
+          }, 600);
+          setTimeout(() => {
+            document.querySelector(".right").style.transform = "translateY(0)";
+          }, 750);
+          setTimeout(() => {
+            document.body.addEventListener("wheel", window.handleScroll, {
+              passive: false,
+            });
+          }, 1750);
           break;
-        // to contactpage
+        //#endregion
+        //#region to contactpage
         case "contactLink":
           console.log("Contact link clicked!");
           line1.style.top = "0";
@@ -108,7 +157,8 @@ linkul.addEventListener("click", function (event) {
             line3.style.top = "0";
           }, 600);
           break;
-        // to musicpage
+        //#endregion
+        //#region to musicpage
         case "musicLink":
           console.log("Music link clicked!");
           line1.style.top = "0";
@@ -122,7 +172,8 @@ linkul.addEventListener("click", function (event) {
             line3.style.top = "0";
           }, 600);
           break;
-        // to listeningpage
+        //#endregion
+        //#region to listeningpage
         case "listeningLink":
           console.log("Listening link clicked!");
           line1.style.top = "0";
@@ -136,6 +187,7 @@ linkul.addEventListener("click", function (event) {
             line3.style.top = "0";
           }, 600);
           break;
+        //#endregion
       }
     }, 1800);
   }
