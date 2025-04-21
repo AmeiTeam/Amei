@@ -4,19 +4,28 @@
   width: 100vw;
   height: 7vh;
   z-index: 10;
+  display: flex;
+  align-items: center;
 }
 
 .header ul {
   width: 100vw;
-  height: 7vh;
+  height: fit-content;
   display: flex;
+  align-items: center;
   list-style: none;
 }
 
 .header ul li {
   width: 25vw;
+  height: fit-content;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 23px;
+}
+
+.header ul li img,
+.header ul li p {
+  cursor: pointer;
 }

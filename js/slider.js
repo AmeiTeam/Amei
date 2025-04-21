@@ -6,7 +6,7 @@ let isAnimating = false;
 
 function getCarouselImages(currentIndex) {
   const images = [];
-  for (let i = -4; i <= 4; i++) {
+  for (let i = -5; i <= 5; i++) {
     let index = (currentIndex + i + totalImages) % totalImages;
     images.push(index + 1); // image number from 1 ~ 15
   }
@@ -23,7 +23,7 @@ function updateCarousel(direction) {
     const span = document.createElement("span");
     const img = document.createElement("img");
 
-    img.src = "/img/test.jpg"; // 放你自己的圖片路徑
+    img.src = "/img/test.jpg";
     img.alt = "Image " + imgNum;
     div.classList.add("carousel-item");
 
@@ -33,9 +33,9 @@ function updateCarousel(direction) {
     div.appendChild(img);
 
     // Apply classes and styles as before
-    if (i === 4) {
-      div.classList.add("active"); // 中間的
-      span.classList.add("active"); // 中間的
+    if (i === 5) {
+      div.classList.add("active");
+      span.classList.add("active");
       setTimeout(() => {
         img.style.transform = "scale(1.25)";
         span.style.top = "-25%";
@@ -43,15 +43,15 @@ function updateCarousel(direction) {
     }
 
     if (direction > 0) {
-      if (i === 3) {
-        img.classList.add("prev"); // 前一張的
+      if (i === 4) {
+        img.classList.add("prev");
         img.style.transform = "scale(1.25)";
         setTimeout(() => {
           img.style.transform = "scale(1)";
         }, 5);
       }
-      if (i === 5) {
-        img.classList.add("next"); // 下一張的
+      if (i === 6) {
+        img.classList.add("next");
         setTimeout(() => {
           img.style.transform = "scale(1)";
         }, 5);
@@ -59,15 +59,15 @@ function updateCarousel(direction) {
     }
 
     if (direction < 0) {
-      if (i === 5) {
-        img.classList.add("prev"); // 前一張的
+      if (i === 6) {
+        img.classList.add("prev");
         img.style.transform = "scale(1.25)";
         setTimeout(() => {
           img.style.transform = "scale(1)";
         }, 5);
       }
-      if (i === 3) {
-        img.classList.add("next"); // 下一張的
+      if (i === 4) {
+        img.classList.add("next");
         setTimeout(() => {
           img.style.transform = "scale(1)";
         }, 5);
@@ -106,9 +106,11 @@ function renderCarousel(direction = 0) {
   }, 500);
 }
 
+let scrollTimeout = null;
+
 function handleScroll(e) {
-  if (isAnimating) {
-    e.preventDefault(); // 還是擋掉預設滾輪行為
+  if (isAnimating || scrollTimeout) {
+    e.preventDefault();
     return;
   }
 
@@ -116,6 +118,10 @@ function handleScroll(e) {
   const direction = e.deltaY > 0 ? 1 : -1;
   currentIndex = (currentIndex + direction + totalImages) % totalImages;
   renderCarousel(direction);
+
+  scrollTimeout = setTimeout(() => {
+    scrollTimeout = null;
+  }, 500); // 和動畫時間一致
 }
 
 document.body.addEventListener("wheel", handleScroll, { passive: false });

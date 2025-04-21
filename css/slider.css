@@ -1,3 +1,11 @@
+.slider-container {
+  transition: all 1s ease;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 80%;
+  left: 50%;
+}
+
 .slider {
   height: 25vh;
   display: flex;
@@ -9,27 +17,27 @@
   left: 50%;
   z-index: 10;
   gap: 20px;
-  transition: transform 0.5s ease; /* 或在 JS 控制也行 */
+  transition: transform 0.5s ease;
   will-change: transform;
 }
 
 .carousel-item {
   max-width: 18vw;
   max-height: 20vh;
-  transition: transform 0.5s ease; /* 或在 JS 控制也行 */
-  transform: scale(1); /* 預設不放大 */
+  transition: transform 0.5s ease;
+  transform: scale(1);
   position: relative;
   display: inline-block;
 }
 .carousel-item img {
   width: 200px;
-  transition: transform 0.5s ease; /* 或在 JS 控制也行 */
-  transform: scale(1); /* 預設不放大 */
+  transition: transform 0.5s ease;
+  transform: scale(1);
 }
 .carousel-item span {
   width: 100%;
   position: absolute;
-  transition: all 0.5s ease; /* 或在 JS 控制也行 */
+  transition: all 0.5s ease;
   top: 0;
   font-size: 16px;
   font-weight: 500;

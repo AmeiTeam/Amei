@@ -1,0 +1,8 @@
+.listeningpage {
+    width: 100vw;
+    height: 100vh;
+    background-color: aliceblue;
+    position: absolute;
+    transform: translateY(-100vh);
+    transition: all 1s ease;
+}

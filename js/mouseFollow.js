@@ -1,6 +1,5 @@
 const container = document.querySelector(".mouse-follow");
 
-// 建立 8 個 img 元素並加入容器中
 for (let i = 1; i <= 8; i++) {
   const img = document.createElement("img");
   img.className = "mouse-follow-img";
