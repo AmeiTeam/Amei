@@ -1,48 +1,49 @@
 .slider-container {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
   transition: all 1s ease;
-  position: absolute;
-  transform: translate(-50%, -50%);
-  top: 80%;
-  left: 50%;
-  z-index: 2;
 }
 
-.slider {
-  height: 25vh;
+.scroll {
+  position: relative;
+  top: 65%;
+}
+
+.scroll-item {
+  counter-increment: count;
+  position: absolute;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
-  position: relative;
-  gap: 20px;
-  transition: transform 0.5s ease;
-  will-change: transform;
+  align-items: center;
+  padding: 0 20px;
 }
 
-.carousel-item {
-  max-width: 18vw;
-  max-height: 20vh;
-  transition: transform 0.5s ease;
-  transform: scale(1);
-  position: relative;
-  display: inline-block;
+.scroll-item .desc {
+  z-index: -1;
 }
-.carousel-item img {
-  width: 200px;
-  transition: transform 0.5s ease;
-  transform: scale(1);
+
+.scroll-item .desc span {
+  color: black;
+  font-family: Noto Serif;
+  font-size: 12px;
+  font-weight: 400;
   position: relative;
+  top: 16px;
+  z-index: -1;
+  transition: all ease 0.4s;
 }
-.carousel-item span {
-  width: 100%;
+
+.scroll-item img {
+  width: 10vw;
+  user-select: none;
+}
+
+.trail {
+  pointer-events: none;
   position: absolute;
-  transition: all 0.5s ease;
-  top: 0;
-  font-size: 16px;
-  font-weight: 500;
-  text-align: center;
-}
-
-.carousel-item.active {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  margin: 0 20px;
+  will-change: transform, opacity;
+  /* filter: blur(3px); */
+  opacity: 0.4;
 }

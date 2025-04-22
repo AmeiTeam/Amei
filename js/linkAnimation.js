@@ -22,9 +22,6 @@ linkul.addEventListener("click", function (event) {
       clickedId != "homeLink"
     ) {
       line1.style.top = "-100vh";
-      document.body.removeEventListener("wheel", window.handleScroll, {
-        passive: false,
-      });
       setTimeout(() => {
         document.querySelector(".left").style.transform = "translateY(-100vh)";
       }, 150);
@@ -32,10 +29,8 @@ linkul.addEventListener("click", function (event) {
         line2.style.top = "-100vh";
       }, 300);
       setTimeout(() => {
-        document.querySelector(".slider-container").style.transform = `${
-          window.getComputedStyle(document.querySelector(".slider-container"))
-            .transform
-        } translateY(-100vh)`;
+        document.querySelector(".slider-container").style.transform =
+          "translateY(-100vh)";
         document.querySelector(".launch").style.transform =
           "translateY(-100vh)";
         document.querySelector(".status").style.transform =
@@ -126,7 +121,7 @@ linkul.addEventListener("click", function (event) {
           }, 300);
           setTimeout(() => {
             document.querySelector(".slider-container").style.transform =
-              "translateY(0) translate(-50%, -50%)";
+              "translateY(0)";
             document.querySelector(".launch").style.transform = "translateY(0)";
             document.querySelector(".status").style.transform = "translateY(0)";
           }, 450);
@@ -136,11 +131,6 @@ linkul.addEventListener("click", function (event) {
           setTimeout(() => {
             document.querySelector(".right").style.transform = "translateY(0)";
           }, 750);
-          setTimeout(() => {
-            document.body.addEventListener("wheel", window.handleScroll, {
-              passive: false,
-            });
-          }, 1750);
           break;
         //#endregion
         //#region to contactpage

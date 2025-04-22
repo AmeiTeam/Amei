@@ -3,6 +3,6 @@
     height: 100vh;
     background-color: maroon;
     position: absolute;
-    transform: translateY(-100vh);
+    transform: translateY(-200vh);
     transition: all 1s ease;
 }

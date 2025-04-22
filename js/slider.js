@@ -1,135 +1,194 @@
-const totalImages = 15;
-let currentIndex = 0;
+/*--------------------
+Vars
+--------------------*/
+const $scroll = document.querySelector(".scroll");
+const $items = document.querySelectorAll(".scroll-item");
+const $images = document.querySelectorAll(".scroll-item img");
+let scrollWidth = $scroll.clientWidth;
+let itemWidth = $items[0].clientWidth;
+let wrapWidth = $items.length * itemWidth;
 
-const carousel = document.getElementById("carousel");
-let isAnimating = false;
+let scrollSpeed = 0;
+let oldScrollY = 0;
+let scrollY = 0;
+let y = 0;
 
-function getCarouselImages(currentIndex) {
-  const images = [];
-  for (let i = -5; i <= 5; i++) {
-    let index = (currentIndex + i + totalImages) % totalImages;
-    images.push(index + 1); // image number from 1 ~ 15
-  }
-  return images;
-}
+/*--------------------
+Lerp
+--------------------*/
+const lerp = (v0, v1, t) => {
+  return v0 * (1 - t) + v1 * t;
+};
 
-function updateCarousel(direction) {
-  const images = getCarouselImages(currentIndex);
-  carousel.innerHTML = "";
-
-  images.forEach((imgNum, i) => {
-    // Create the structure <div><span><img></span></div>
-    const div = document.createElement("div");
-    const span = document.createElement("span");
-    const img = document.createElement("img");
-
-    img.src = "/img/test.jpg";
-    img.alt = "Image " + imgNum;
-    div.classList.add("carousel-item");
-
-    // Append img inside span, and span inside div
-    div.appendChild(span);
-    span.innerText = "Bombardiro Crocodillo ";
-    div.appendChild(img);
-
-    // Apply classes and styles as before
-    if (i === 5) {
-      div.classList.add("active");
-      span.classList.add("active");
-      setTimeout(() => {
-        img.style.transform = "scale(1.25)";
-        span.style.top = "-25%";
-      }, 10);
-    }
-
-    if (direction > 0) {
-      if (i === 4) {
-        img.classList.add("prev");
-        img.style.transform = "scale(1.25)";
-        setTimeout(() => {
-          img.style.transform = "scale(1)";
-        }, 5);
-      }
-      if (i === 6) {
-        img.classList.add("next");
-        setTimeout(() => {
-          img.style.transform = "scale(1)";
-        }, 5);
-      }
-    }
-
-    if (direction < 0) {
-      if (i === 6) {
-        img.classList.add("prev");
-        img.style.transform = "scale(1.25)";
-        setTimeout(() => {
-          img.style.transform = "scale(1)";
-        }, 5);
-      }
-      if (i === 4) {
-        img.classList.add("next");
-        setTimeout(() => {
-          img.style.transform = "scale(1)";
-        }, 5);
-      }
-    }
-
-    // Append the div (which contains span and img) to the carousel
-    carousel.appendChild(div);
+/*--------------------
+Dispose
+--------------------*/
+const dispose = (scroll) => {
+  gsap.set($items, {
+    x: (i) => {
+      return i * itemWidth + scroll;
+    },
+    modifiers: {
+      x: (x, target) => {
+        const s = gsap.utils.wrap(
+          -itemWidth,
+          wrapWidth - itemWidth,
+          parseInt(x)
+        );
+        return `${s}px`;
+      },
+    },
   });
-}
+};
+const centerItemIndex = 2; // 第 3 個（index 從 0 開始）
+const initialOffset =
+  (scrollWidth - itemWidth) / 2 - centerItemIndex * itemWidth;
+dispose(initialOffset);
+scrollY = initialOffset;
+y = initialOffset;
 
-function renderCarousel(direction = 0) {
-  if (isAnimating) return;
-  isAnimating = true;
+/*--------------------
+Wheel
+--------------------*/
 
-  const moveX = direction > 0 ? -220 : direction < 0 ? 220 : 0;
+const vw = window.innerWidth;
+const fullCalc = vw / 10 + 40;
+const scrollAmount = fullCalc;
+let lastScrollTime = 0;
+const throttleDelay = 100;
 
-  // 1. 先更新圖片內容（讓下一張 active）
-  updateCarousel(direction);
+const handleMouseWheel = (e) => {
+  const now = Date.now();
+  if (now - lastScrollTime < throttleDelay) return;
 
-  // 2. 先把 carousel 移到「滑動開始的起點」
-  carousel.style.transition = "none";
-  carousel.style.transform = `translateX(${-moveX}px)`;
-
-  // 3. 等下一幀（下一輪繪圖）再執行動畫
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      carousel.style.transition = "transform 0.5s ease";
-      carousel.style.transform = `translateX(0)`;
-    });
-  });
-
-  // 4. 結束動畫後解鎖
-  setTimeout(() => {
-    isAnimating = false;
-  }, 500);
-}
-
-let scrollTimeout = null;
-
-function handleScroll(e) {
-  if (Math.abs(e.deltaY) < 10) {
-    return;
-  }
-
-  if (isAnimating || scrollTimeout) {
-    e.preventDefault();
-    return;
-  }
-
-  e.preventDefault();
+  lastScrollTime = now;
 
   const direction = e.deltaY > 0 ? 1 : -1;
-  currentIndex = (currentIndex + direction + totalImages) % totalImages;
-  renderCarousel(direction);
+  const fixedDelta = direction * 100;
 
-  scrollTimeout = setTimeout(() => {
-    scrollTimeout = null;
-  }, 500); // 和動畫時間一致
-}
+  scrollY -= (fixedDelta * scrollAmount) / 100;
+};
 
-document.body.addEventListener("wheel", handleScroll, { passive: false });
+/*--------------------
+Touch
+--------------------*/
+let touchStart = 0;
+let touchX = 0;
+let isDragging = false;
+const handleTouchStart = (e) => {
+  touchStart = e.clientX || e.touches[0].clientX;
+  isDragging = true;
+  $scroll.classList.add("is-dragging");
+};
+const handleTouchMove = (e) => {
+  if (!isDragging) return;
+  touchX = e.clientX || e.touches[0].clientX;
+  scrollY += (touchX - touchStart) * 2.5;
+  touchStart = touchX;
+};
+const handleTouchEnd = () => {
+  isDragging = false;
+  $scroll.classList.remove("is-dragging");
+};
 
-// 初始化
-renderCarousel();
+/*--------------------
+Listeners
+--------------------*/
+window.addEventListener("mousewheel", handleMouseWheel);
+
+$scroll.addEventListener("touchstart", handleTouchStart);
+$scroll.addEventListener("touchmove", handleTouchMove);
+$scroll.addEventListener("touchend", handleTouchEnd);
+
+$scroll.addEventListener("selectstart", () => {
+  return false;
+});
+
+/*--------------------
+Resize
+--------------------*/
+window.addEventListener("resize", () => {
+  scrollWidth = $scroll.clientWidth;
+  itemWidth = $items[0].clientWidth;
+  wrapWidth = $items.length * itemWidth;
+});
+
+/*--------------------
+Render
+--------------------*/
+let frameCount = 0;
+
+const createTrail = () => {
+  $items.forEach(($item) => {
+    const rect = $item.getBoundingClientRect();
+    const clone = $item.cloneNode(true);
+    clone.classList.add("trail");
+
+    $scroll.appendChild(clone);
+
+    const scrollRect = $scroll.getBoundingClientRect();
+    const offsetLeft = rect.left - scrollRect.left;
+    const offsetTop = rect.top - scrollRect.top;
+
+    gsap.set(clone, {
+      x: 0,
+      y: 0,
+      opacity: 0.3,
+      // filter: "blur(4px)",
+      pointerEvents: "none",
+      position: "absolute",
+      left: `${offsetLeft}px`,
+      top: `${offsetTop}px`,
+      width: `${rect.width}px`,
+      height: `${rect.height}px`,
+      // zIndex: 0,
+    });
+
+    gsap.to(clone, {
+      opacity: 0,
+      duration: 0.5,
+      ease: "power2.out",
+      onComplete: () => {
+        clone.remove();
+      },
+    });
+  });
+};
+
+const render = () => {
+  requestAnimationFrame(render);
+  y = lerp(y, scrollY, 0.1);
+  dispose(y);
+
+  scrollSpeed = y - oldScrollY;
+  oldScrollY = y;
+
+  frameCount++;
+  if (Math.abs(scrollSpeed) > 1 && frameCount % 3 === 0) {
+    createTrail();
+  }
+
+  $items.forEach(($item, i) => {
+    const rect = $item.getBoundingClientRect();
+    const itemCenter = rect.left + rect.width / 2;
+    const screenCenter = window.innerWidth / 2;
+    const distToCenter = Math.abs(screenCenter - itemCenter);
+
+    const offsetFactor = Math.sin(i * 1.2 + y * 0.8 + Math.random() * 0.1);
+    const skewVal = -scrollSpeed * 0.3 * offsetFactor;
+    const rotateVal = scrollSpeed * 0.05 * offsetFactor;
+    const opacityVal = 1 - Math.min(0.4, Math.abs(scrollSpeed) / 100);
+
+    const scaleVal = distToCenter < itemWidth / 2 ? 1.25 : 1;
+
+    gsap.to($item, {
+      skewX: skewVal,
+      rotate: rotateVal,
+      opacity: opacityVal,
+      scale: scaleVal,
+      ease: "power2.out",
+      duration: 0.3,
+    });
+  });
+};
+render();
