@@ -1,8 +1,36 @@
 .contactpage {
     width: 100vw;
-    height: 100vh;
-    background-color: maroon;
+    height: 200vh;
     position: absolute;
     transform: translateY(-200vh);
     transition: all 1s ease;
+    overflow: hidden;
+}
+
+.contactpage img {
+    position: absolute;
+}
+
+#contact-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    will-change: transform;
+    z-index: -1;
+}
+#card1 {
+    top: 120vh;
+    left: 0;
+    width: 50vw;
+}
+#card2 {
+    top: 150vh;
+    right: 0;
+    width: 25vw;
+}
+#card3 {
+    transform: translate(-50%);
+    left: 50%;
+    top: 220vh;
+    width: 50vw;
 }

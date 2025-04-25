@@ -57,7 +57,7 @@ linkul.addEventListener("click", function (event) {
         line2.style.top = "-100vh";
       }, 300);
       setTimeout(() => {
-        contactpage.style.transform = "translateY(-100vh)";
+        contactpage.style.transform = "translateY(-200vh)";
       }, 450);
       setTimeout(() => {
         line3.style.top = "-100vh";
