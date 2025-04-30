@@ -48,9 +48,9 @@ linkul.addEventListener("click", function (event) {
       switch (clickedId) {
         case "contactLink":
           setTimeout(() => {
-            ScrollTrigger.refresh(); // 重新計算位置
-            setupParallax(); // 設定 scroll trigger 動畫
-          }, 3400); // 和 CSS transition 時間一樣
+            ScrollTrigger.refresh();
+            setupParallax();
+          }, 3400);
           break;
       }
     }

@@ -67,6 +67,7 @@ const handleMouseWheel = (e) => {
   const fixedDelta = direction * 100;
 
   scrollY -= (fixedDelta * scrollAmount) / 100;
+  detectCenterAfterScroll();
 };
 
 /*--------------------
@@ -112,6 +113,52 @@ window.addEventListener("resize", () => {
   itemWidth = $items[0].clientWidth;
   wrapWidth = $items.length * itemWidth;
 });
+
+const getCenteredItem = () => {
+  const screenCenter = window.innerWidth / 2;
+  let closestItem = null;
+  let closestDistance = Infinity;
+  let centeredIndex = -1;
+
+  $items.forEach(($item, index) => {
+    const rect = $item.getBoundingClientRect();
+    const itemCenter = rect.left + rect.width / 2;
+    const distance = Math.abs(itemCenter - screenCenter);
+
+    if (distance < closestDistance) {
+      closestDistance = distance;
+      closestItem = $item;
+      centeredIndex = index;
+    }
+  });
+
+  return { item: closestItem, index: centeredIndex };
+};
+
+let scrollTimeout = null;
+const title = document.getElementById("title");
+const rightImg = document.getElementById("right-img");
+
+const detectCenterAfterScroll = () => {
+  if (scrollTimeout) {
+    clearTimeout(scrollTimeout);
+  }
+  let index = 0;
+
+  scrollTimeout = setTimeout(() => {
+    const centered = getCenteredItem();
+    if (centered.index - 2 == 0) {
+      index = 1;
+    } else if (centered.index - 2 == -1) {
+      index = 15;
+    } else if (centered.index - 2 == -2) {
+      index = 14;
+    } else index = centered.index - 1;
+    title.innerText = `Testing ${index}`;
+    rightImg.src = `img/slider/slider${index}.jpg`;
+  }, 500);
+};
+detectCenterAfterScroll();
 
 /*--------------------
 Render
@@ -175,15 +222,11 @@ const render = () => {
     const distToCenter = Math.abs(screenCenter - itemCenter);
 
     const offsetFactor = Math.sin(i * 1.2 + y * 0.8 + Math.random() * 0.1);
-    const skewVal = -scrollSpeed * 0.3 * offsetFactor;
-    const rotateVal = scrollSpeed * 0.05 * offsetFactor;
     const opacityVal = 1 - Math.min(0.4, Math.abs(scrollSpeed) / 100);
 
     const scaleVal = distToCenter < itemWidth / 2 ? 1.25 : 1;
 
     gsap.to($item, {
-      skewX: skewVal,
-      rotate: rotateVal,
       opacity: opacityVal,
       scale: scaleVal,
       ease: "power2.out",
