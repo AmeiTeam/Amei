@@ -1,58 +1,51 @@
-gsap.registerPlugin(ScrollTrigger);
+const contactPage = document.querySelector(".contactpage");
+const cards = document.querySelector(".contactpage .cards");
+const contactBg = document.querySelector("#contact-background");
 
-function setupParallax() {
-  gsap.to("#contact-background", {
-    y: "180vh",
-    ease: "none",
-    immediateRender: true,
-    scrollTrigger: {
-      trigger: ".contactpage",
-      start: "top top",
-      end: "bottom top",
-      scrub: true,
-      markers: true,
-      scroller: "body", // 這樣會確保 ScrollTrigger 使用整個頁面的滾動
-    },
-  });
+document.getElementById("card2").style.top = `calc(${
+  window.innerWidth * 0.5 * (295 / 960)
+}px )`;
+document.getElementById("card3").style.top = `calc(${
+  window.innerWidth * 0.5 * (295 / 960) + window.innerWidth * 0.25 * (573 / 480)
+}px )`;
 
-  gsap.utils.toArray(["#card1", "#card2", "#card3"]).forEach((card) => {
-    gsap.to(card, {
-      y: "-40vh",
-      scrollTrigger: {
-        trigger: ".contactpage",
-        start: "top top",
-        end: "bottom top",
-        scrub: true,
-        markers: true,
-      },
-    });
-  });
-}
+const cardsHeight =
+  window.innerWidth * 0.5 * (295 / 960) +
+  window.innerWidth * 0.25 * (573 / 480) +
+  window.innerWidth * 0.5 * (335 / 960);
 
-linkul.addEventListener("click", function (event) {
-  const clickedId = event.target.id;
+contactPage.addEventListener("wheel", function (e) {
+  e.preventDefault();
 
-  if (clickedId != "") {
-    const samePage =
-      (clickedId == "homeLink" &&
-        (homepage.style.transform == "" ||
-          homepage.style.transform == "translateY(0px)")) ||
-      (clickedId == "contactLink" &&
-        contactpage.style.transform == "translateY(0px)") ||
-      (clickedId == "musicLink" &&
-        musicpage.style.transform == "translateY(0px)") ||
-      (clickedId == "listeningLink" &&
-        listeningpage.style.transform == "translateY(0px)");
+  if (contactBg.style.top === "") {
+    contactBg.style.top = "0px";
+  }
+  if (cards.style.top === "") {
+    cards.style.top = "1080px";
+  }
 
-    if (!samePage) {
-      switch (clickedId) {
-        case "contactLink":
-          setTimeout(() => {
-            ScrollTrigger.refresh();
-            setupParallax();
-          }, 3400);
-          break;
-      }
+  let bgTop = parseInt(contactBg.style.top);
+  let cardsTop = parseInt(cards.style.top);
+
+  const bgMin = -(contactBg.offsetHeight - window.innerHeight);
+  const bgMax = 0;
+
+  const cardsMin = -cardsHeight;
+  const cardsMax = window.innerHeight;
+
+  if (e.deltaY > 0) {
+    if (bgTop > bgMin) {
+      contactBg.style.top = `${Math.max(bgTop - 10, bgMin)}px`;
+    }
+    if (cardsTop > cardsMin) {
+      cards.style.top = `${Math.max(cardsTop - 200, cardsMin)}px`;
+    }
+  } else if (e.deltaY < 0) {
+    if (bgTop < bgMax) {
+      contactBg.style.top = `${Math.min(bgTop + 10, bgMax)}px`;
+    }
+    if (cardsTop < cardsMax) {
+      cards.style.top = `${Math.min(cardsTop + 200, cardsMax)}px`;
     }
   }
 });

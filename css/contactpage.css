@@ -1,14 +1,36 @@
 .contactpage {
     width: 100vw;
-    height: 200vh;
+    height: calc(100vh + 1080px);
     position: absolute;
-    transform: translateY(-200vh);
+    transform: translateY(calc(-100vh - 1080px));
     transition: all 1s ease;
     overflow: hidden;
 }
 
-.contactpage img {
+.contactpage .cards  {
+    width: 100vw;
+    height: fit-content;
+    position: relative;
+    top: 1080px;
+    transition: all 0.5s ease;
+}
+
+.contactpage .cards img{
     position: absolute;
+}
+
+#card1 {
+    width: 50vw;
+    top: 0;
+    left: 0;
+}
+#card2 {
+    width: 25vw;
+    right: 0;
+}
+#card3 {
+    width: 50vw;
+    left: 25vw;
 }
 
 #contact-background {
@@ -17,20 +39,5 @@
     left: 0;
     will-change: transform;
     z-index: -1;
-}
-#card1 {
-    top: 120vh;
-    left: 0;
-    width: 50vw;
-}
-#card2 {
-    top: 150vh;
-    right: 0;
-    width: 25vw;
-}
-#card3 {
-    transform: translate(-50%);
-    left: 50%;
-    top: 220vh;
-    width: 50vw;
+    transition: all 0.5s ease;
 }

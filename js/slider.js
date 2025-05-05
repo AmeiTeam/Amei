@@ -1,6 +1,4 @@
-/*--------------------
-Vars
---------------------*/
+//#region const
 const $scroll = document.querySelector(".scroll");
 const $items = document.querySelectorAll(".scroll-item");
 const $images = document.querySelectorAll(".scroll-item img");
@@ -12,17 +10,15 @@ let scrollSpeed = 0;
 let oldScrollY = 0;
 let scrollY = 0;
 let y = 0;
+//#endregion
 
-/*--------------------
-Lerp
---------------------*/
+//#region lerp
 const lerp = (v0, v1, t) => {
   return v0 * (1 - t) + v1 * t;
 };
+//#endregion
 
-/*--------------------
-Dispose
---------------------*/
+//#region dispose
 const dispose = (scroll) => {
   gsap.set($items, {
     x: (i) => {
@@ -40,17 +36,15 @@ const dispose = (scroll) => {
     },
   });
 };
-const centerItemIndex = 2; // 第 3 個（index 從 0 開始）
+const centerItemIndex = 2;
 const initialOffset =
   (scrollWidth - itemWidth) / 2 - centerItemIndex * itemWidth;
 dispose(initialOffset);
 scrollY = initialOffset;
 y = initialOffset;
+//#endregion
 
-/*--------------------
-Wheel
---------------------*/
-
+//#region wheel
 const vw = window.innerWidth;
 const fullCalc = vw / 10 + 40;
 const scrollAmount = fullCalc;
@@ -69,10 +63,9 @@ const handleMouseWheel = (e) => {
   scrollY -= (fixedDelta * scrollAmount) / 100;
   detectCenterAfterScroll();
 };
+//#endregion
 
-/*--------------------
-Touch
---------------------*/
+//#region touch
 let touchStart = 0;
 let touchX = 0;
 let isDragging = false;
@@ -91,10 +84,9 @@ const handleTouchEnd = () => {
   isDragging = false;
   $scroll.classList.remove("is-dragging");
 };
+//#endregion
 
-/*--------------------
-Listeners
---------------------*/
+//#region listeners
 window.addEventListener("mousewheel", handleMouseWheel);
 
 $scroll.addEventListener("touchstart", handleTouchStart);
@@ -104,16 +96,17 @@ $scroll.addEventListener("touchend", handleTouchEnd);
 $scroll.addEventListener("selectstart", () => {
   return false;
 });
+//#endregion
 
-/*--------------------
-Resize
---------------------*/
+//#region resize
 window.addEventListener("resize", () => {
   scrollWidth = $scroll.clientWidth;
   itemWidth = $items[0].clientWidth;
   wrapWidth = $items.length * itemWidth;
 });
+//#endregion
 
+//#region getCenter
 const getCenteredItem = () => {
   const screenCenter = window.innerWidth / 2;
   let closestItem = null;
@@ -159,10 +152,9 @@ const detectCenterAfterScroll = () => {
   }, 500);
 };
 detectCenterAfterScroll();
+//#endregion
 
-/*--------------------
-Render
---------------------*/
+//#region trail
 let frameCount = 0;
 
 const createTrail = () => {
@@ -181,14 +173,12 @@ const createTrail = () => {
       x: 0,
       y: 0,
       opacity: 0.3,
-      // filter: "blur(4px)",
       pointerEvents: "none",
       position: "absolute",
       left: `${offsetLeft}px`,
       top: `${offsetTop}px`,
       width: `${rect.width}px`,
       height: `${rect.height}px`,
-      // zIndex: 0,
     });
 
     gsap.to(clone, {
@@ -201,7 +191,9 @@ const createTrail = () => {
     });
   });
 };
+//#endregion
 
+//#region render
 const render = () => {
   requestAnimationFrame(render);
   y = lerp(y, scrollY, 0.1);
@@ -221,7 +213,6 @@ const render = () => {
     const screenCenter = window.innerWidth / 2;
     const distToCenter = Math.abs(screenCenter - itemCenter);
 
-    const offsetFactor = Math.sin(i * 1.2 + y * 0.8 + Math.random() * 0.1);
     const opacityVal = 1 - Math.min(0.4, Math.abs(scrollSpeed) / 100);
 
     const scaleVal = distToCenter < itemWidth / 2 ? 1.25 : 1;
@@ -235,3 +226,4 @@ const render = () => {
   });
 };
 render();
+//#endregion

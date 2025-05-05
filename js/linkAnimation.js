@@ -57,11 +57,17 @@ linkul.addEventListener("click", function (event) {
         line2.style.top = "-100vh";
       }, 300);
       setTimeout(() => {
-        contactpage.style.transform = "translateY(-200vh)";
+        contactpage.style.transform = "translateY(calc(-100vh - 1080px))";
       }, 450);
       setTimeout(() => {
         line3.style.top = "-100vh";
       }, 600);
+      setTimeout(() => {
+        document.querySelector(
+          ".contactpage .cards"
+        ).style.top = `${window.innerHeight}px`;
+        document.querySelector("#contact-background").style.top = "0px";
+      }, 1200);
     }
     //#endregion
     //#region in musicpage
@@ -72,6 +78,7 @@ linkul.addEventListener("click", function (event) {
       line1.style.top = "-100vh";
       setTimeout(() => {
         line2.style.top = "-100vh";
+        musicpage.style.transform = "translateY(-100vh)";
       }, 300);
       setTimeout(() => {
         line3.style.top = "-100vh";
@@ -86,6 +93,7 @@ linkul.addEventListener("click", function (event) {
       line1.style.top = "-100vh";
       setTimeout(() => {
         line2.style.top = "-100vh";
+        listeningpage.style.transform = "translateY(-100vh)";
       }, 300);
       setTimeout(() => {
         line3.style.top = "-100vh";
@@ -171,7 +179,7 @@ linkul.addEventListener("click", function (event) {
             line2.style.top = "0";
           }, 300);
           setTimeout(() => {
-            listeningLink.style.transform = "translateY(0)";
+            listeningpage.style.transform = "translateY(0)";
           }, 500);
           setTimeout(() => {
             line3.style.top = "0";

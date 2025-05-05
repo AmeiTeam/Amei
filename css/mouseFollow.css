@@ -23,7 +23,7 @@
   height: 100vh;
   width: 0.7px;
   background-color: #575757;
-  position: absolute;
+  position: fixed;
   transform: translate(-50%);
   top: 0;
   transition: all 1s ease;
