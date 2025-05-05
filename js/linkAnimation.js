@@ -52,6 +52,7 @@ linkul.addEventListener("click", function (event) {
       contactpage.style.transform == "translateY(0px)" &&
       clickedId != "contactLink"
     ) {
+      document.querySelector(".contactpage .cards").style.display = "none";
       line1.style.top = "-100vh";
       setTimeout(() => {
         line2.style.top = "-100vh";
@@ -154,6 +155,10 @@ linkul.addEventListener("click", function (event) {
           setTimeout(() => {
             line3.style.top = "0";
           }, 600);
+          setTimeout(() => {
+            document.querySelector(".contactpage .cards").style.display =
+              "block";
+          }, 1500);
           break;
         //#endregion
         //#region to musicpage

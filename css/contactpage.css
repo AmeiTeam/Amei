@@ -9,10 +9,11 @@
 
 .contactpage .cards  {
     width: 100vw;
-    height: fit-content;
+    height: 100vh;
     position: relative;
     top: 1080px;
     transition: all 0.5s ease;
+    display: none;
 }
 
 .contactpage .cards img{

@@ -35,14 +35,14 @@ contactPage.addEventListener("wheel", function (e) {
 
   if (e.deltaY > 0) {
     if (bgTop > bgMin) {
-      contactBg.style.top = `${Math.max(bgTop - 10, bgMin)}px`;
+      contactBg.style.top = `${Math.max(bgTop - 12, bgMin)}px`;
     }
     if (cardsTop > cardsMin) {
       cards.style.top = `${Math.max(cardsTop - 200, cardsMin)}px`;
     }
   } else if (e.deltaY < 0) {
     if (bgTop < bgMax) {
-      contactBg.style.top = `${Math.min(bgTop + 10, bgMax)}px`;
+      contactBg.style.top = `${Math.min(bgTop + 12, bgMax)}px`;
     }
     if (cardsTop < cardsMax) {
       cards.style.top = `${Math.min(cardsTop + 200, cardsMax)}px`;
