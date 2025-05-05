@@ -119,7 +119,6 @@ linkul.addEventListener("click", function (event) {
       switch (clickedId) {
         //#region to homepage
         case "homeLink":
-          console.log("Home link clicked!");
           homepage.style.transform = "translateY(0)";
           line1.style.top = "0";
           setTimeout(() => {
@@ -144,7 +143,6 @@ linkul.addEventListener("click", function (event) {
         //#endregion
         //#region to contactpage
         case "contactLink":
-          console.log("Contact link clicked!");
           line1.style.top = "0";
           setTimeout(() => {
             line2.style.top = "0";
@@ -163,7 +161,6 @@ linkul.addEventListener("click", function (event) {
         //#endregion
         //#region to musicpage
         case "musicLink":
-          console.log("Music link clicked!");
           line1.style.top = "0";
           setTimeout(() => {
             line2.style.top = "0";
@@ -178,7 +175,6 @@ linkul.addEventListener("click", function (event) {
         //#endregion
         //#region to listeningpage
         case "listeningLink":
-          console.log("Listening link clicked!");
           line1.style.top = "0";
           setTimeout(() => {
             line2.style.top = "0";
