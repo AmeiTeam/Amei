@@ -131,6 +131,9 @@ const getCenteredItem = () => {
 let scrollTimeout = null;
 const title = document.getElementById("title");
 const rightImg = document.getElementById("right-img");
+const launchSpan = document.getElementById("launch-span");
+const statusSpan = document.getElementById("status-span");
+const statusDot = document.getElementById("status-dot");
 
 const detectCenterAfterScroll = () => {
   if (scrollTimeout) {
@@ -148,7 +151,22 @@ const detectCenterAfterScroll = () => {
       index = 14;
     } else index = centered.index - 1;
     title.innerText = `Testing ${index}`;
-    rightImg.src = `img/slider/slider${index}.jpg`;
+    rightImg.src = imgData[index - 1].src;
+    launchSpan.innerText = imgData[index - 1].launch;
+    switch (imgData[index - 1].status) {
+      case 1:
+        statusSpan.innerText = "opening";
+        statusDot.src = "/img/green_dot.svg";
+        break;
+      case 2:
+        statusSpan.innerText = "closed";
+        statusDot.src = "/img/red_dot.svg";
+        break;
+      case 3:
+        statusSpan.innerText = "error404";
+        statusDot.src = "/img/yellow_dot.svg";
+        break;
+    }
   }, 500);
 };
 detectCenterAfterScroll();
@@ -226,4 +244,24 @@ const render = () => {
   });
 };
 render();
+//#endregion
+
+//#region imgData
+const imgData = [
+  { src: "/img/slider/slider1.jpg", status: 2, launch: "2025/03/15" },
+  { src: "/img/slider/slider2.jpg", status: 1, launch: "2025/06/10" },
+  { src: "/img/slider/slider3.jpg", status: 3, launch: "2025/09/25" },
+  { src: "/img/slider/slider4.jpg", status: 1, launch: "2025/01/05" },
+  { src: "/img/slider/slider5.jpg", status: 2, launch: "2025/04/20" },
+  { src: "/img/slider/slider6.jpg", status: 3, launch: "2025/07/30" },
+  { src: "/img/slider/slider7.jpg", status: 1, launch: "2025/02/14" },
+  { src: "/img/slider/slider8.jpg", status: 2, launch: "2025/05/18" },
+  { src: "/img/slider/slider9.jpg", status: 3, launch: "2025/08/22" },
+  { src: "/img/slider/slider10.jpg", status: 1, launch: "2025/11/11" },
+  { src: "/img/slider/slider11.jpg", status: 2, launch: "2025/03/03" },
+  { src: "/img/slider/slider12.jpg", status: 3, launch: "2025/06/06" },
+  { src: "/img/slider/slider13.jpg", status: 1, launch: "2025/09/09" },
+  { src: "/img/slider/slider14.jpg", status: 2, launch: "2025/12/12" },
+  { src: "/img/slider/slider15.jpg", status: 3, launch: "2025/10/10" },
+];
 //#endregion
