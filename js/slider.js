@@ -50,6 +50,7 @@ const fullCalc = vw / 10 + 40;
 const scrollAmount = fullCalc;
 let lastScrollTime = 0;
 const throttleDelay = 100;
+document.querySelector(".homepage .block").style.transform = 0;
 
 const handleMouseWheel = (e) => {
   const now = Date.now();
@@ -59,6 +60,21 @@ const handleMouseWheel = (e) => {
 
   const direction = e.deltaY > 0 ? 1 : -1;
   const fixedDelta = direction * 100;
+  const currentTransform =
+    document.querySelector(".homepage .block").style.transform;
+
+  const match = currentTransform.match(/rotate\((\d+)deg\)/);
+  let currentAngle = match ? parseInt(match[1]) : 0;
+
+  if (direction == 1) {
+    document.querySelector(".homepage .block").style.transform = `rotate(${
+      currentAngle + 180
+    }deg)`;
+  } else {
+    document.querySelector(".homepage .block").style.transform = `rotate(${
+      currentAngle - 180
+    }deg)`;
+  }
 
   scrollY -= (fixedDelta * scrollAmount) / 100;
   detectCenterAfterScroll();

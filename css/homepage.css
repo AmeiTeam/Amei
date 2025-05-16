@@ -102,3 +102,13 @@ body {
 .status img {
   margin-left: 5px;
 }
+
+.block {
+  width: 15px;
+  height: 15px;
+  background-color: white;
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  transition: all 1s ease;
+}

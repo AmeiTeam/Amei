@@ -14,8 +14,17 @@ const cardsHeight =
   window.innerWidth * 0.25 * (573 / 480) +
   window.innerWidth * 0.5 * (335 / 960);
 
+let isScrolling;
+
 contactPage.addEventListener("wheel", function (e) {
   e.preventDefault();
+
+  if (isScrolling) return;
+  isScrolling = true;
+
+  setTimeout(() => {
+    isScrolling = false;
+  }, 30);
 
   if (contactBg.style.top === "") {
     contactBg.style.top = "0px";
