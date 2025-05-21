@@ -52,7 +52,6 @@ linkul.addEventListener("click", function (event) {
       contactpage.style.transform == "translateY(0px)" &&
       clickedId != "contactLink"
     ) {
-      document.querySelector(".contactpage .cards").style.display = "none";
       line1.style.top = "-100vh";
       setTimeout(() => {
         line2.style.top = "-100vh";
@@ -67,6 +66,7 @@ linkul.addEventListener("click", function (event) {
         document.querySelector(
           ".contactpage .cards"
         ).style.top = `${window.innerHeight}px`;
+        document.querySelector(".contactpage .cards").style.display = "none";
         document.querySelector("#contact-background").style.top = "0px";
       }, 1200);
     }

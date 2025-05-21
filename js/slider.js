@@ -78,6 +78,7 @@ const handleMouseWheel = (e) => {
 
   scrollY -= (fixedDelta * scrollAmount) / 100;
   detectCenterAfterScroll();
+  startScrambling(title, intro);
 };
 //#endregion
 
@@ -146,6 +147,7 @@ const getCenteredItem = () => {
 
 let scrollTimeout = null;
 const title = document.getElementById("title");
+const intro = document.getElementById("intro");
 const rightImg = document.getElementById("right-img");
 const launchSpan = document.getElementById("launch-span");
 const statusSpan = document.getElementById("status-span");
@@ -156,6 +158,8 @@ const detectCenterAfterScroll = () => {
     clearTimeout(scrollTimeout);
   }
   let index = 0;
+  const introText =
+    "No one shall be subjected to arbitrary arrest, detention or exile. Everyone is entitled in full equality to a fair and public hearing by an independent and impartial tribunal. <br class='br'> No one shall be subjected to arbitrary interference with his privacy, family, home or correspondence, nor to attacks upon his honour and reputation.";
 
   scrollTimeout = setTimeout(() => {
     const centered = getCenteredItem();
@@ -167,8 +171,10 @@ const detectCenterAfterScroll = () => {
       index = 14;
     } else index = centered.index - 1;
     title.innerText = `Testing ${index}`;
+    intro.innerHTML = introText;
     rightImg.src = imgData[index - 1].src;
     launchSpan.innerText = imgData[index - 1].launch;
+    stopScrambling();
     switch (imgData[index - 1].status) {
       case 1:
         statusSpan.innerText = "opening";
@@ -280,4 +286,58 @@ const imgData = [
   { src: "/img/slider/slider14.jpg", status: 2, launch: "2025/12/12" },
   { src: "/img/slider/slider15.jpg", status: 3, launch: "2025/10/10" },
 ];
+//#endregion
+
+//#region randomChar
+const letters =
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*() ";
+
+let isScrambling = false;
+let scrambleInterval = null;
+
+function getRandomChar() {
+  return letters[Math.floor(Math.random() * letters.length)];
+}
+
+function startScrambling(title, intro) {
+  const titleText = title.innerText;
+  const introText = intro.innerText;
+  if (isScrambling) return; // ✅ 已啟動就跳過
+  isScrambling = true;
+
+  scrambleInterval = setInterval(() => {
+    let scrambled = "";
+    for (let i = 0; i < titleText.length; i++) {
+      const char = titleText[i];
+      if (
+        char === " " ||
+        /[\u3000-\u303F\uFF00-\uFFEF\u2000-\u206F]/.test(char)
+      ) {
+        scrambled += char;
+      } else {
+        scrambled += getRandomChar();
+      }
+    }
+    title.textContent = scrambled;
+
+    for (let i = 0; i < introText.length - 20; i++) {
+      const char = introText[i];
+      if (
+        char === " " ||
+        /[\u3000-\u303F\uFF00-\uFFEF\u2000-\u206F]/.test(char)
+      ) {
+        scrambled += char;
+      } else {
+        scrambled += getRandomChar();
+      }
+    }
+    intro.textContent = scrambled;
+  }, 50);
+}
+
+function stopScrambling() {
+  clearInterval(scrambleInterval);
+  scrambleInterval = null;
+  isScrambling = false;
+}
 //#endregion
